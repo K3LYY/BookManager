@@ -14,7 +14,7 @@ namespace BookManager
         string tempBook = "";
         public void save(List<Book> books)
         {
-            FileStream stream = new FileStream("E:\\GitProjects\\BookManager\\BooksDB.txt", FileMode.OpenOrCreate);
+            FileStream stream = new FileStream("D:\\BookManager\\BookManager\\BooksDB.txt", FileMode.OpenOrCreate);
             using (StreamWriter write = new StreamWriter(stream, Encoding.UTF8))
             {
                 for (int i = 0; i < books.Count; i++)
