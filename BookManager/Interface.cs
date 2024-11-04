@@ -58,7 +58,19 @@ namespace BookManager
                     break;
                 case 2:
                     Console.WriteLine("Enter book Id: ");
-                    int bookId = Convert.ToInt32(Console.ReadLine());
+                    string bookIdInput = Console.ReadLine();
+                    int bookId = -1;
+                    if(validate.lettersInNumbers(bookIdInput) != -1)
+                    {
+                        bookId = validate.lettersInNumbers(bookIdInput);
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        consolColor.WriteWithColor("Please enter number not letters", ConsoleColor.Red);
+                        ShowMenu();
+                    }
+                    Console.Clear();
                     ShowBookByObject(ShowBookById(bookId));
                     break;
                 case 3:
@@ -69,14 +81,25 @@ namespace BookManager
                     break;
                 case 5:
                     Console.WriteLine("Enter book Id: ");
-                    int bookIdToDelete = Convert.ToInt32(Console.ReadLine());
+                    string bookIdToDeleteInput = Console.ReadLine();
+                    int bookIdToDelete = -1;
+                    if (validate.lettersInNumbers(bookIdToDeleteInput) != -1)
+                    {
+                        bookIdToDelete = validate.lettersInNumbers(bookIdToDeleteInput);
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        consolColor.WriteWithColor("Please enter number not letters", ConsoleColor.Red);
+                        ShowMenu();
+                    }
                     Console.Clear();
                     DeleteBookById(bookIdToDelete);
                     break;
                 case 6:
                     Console.WriteLine("Enter book Id: ");
                     string bookIdToEditInput = Console.ReadLine();
-                    int bookIdToEdit;
+                    int bookIdToEdit = -1;
                     if (validate.lettersInNumbers(bookIdToEditInput) != -1)
                     {
                         bookIdToEdit = validate.lettersInNumbers(bookIdToEditInput);
@@ -94,7 +117,7 @@ namespace BookManager
                     SaveBooks();
                     break;
                 case 8:
-                    System.Environment.Exit(-1);
+                    System.Environment.Exit(0);
                     break;
                 default:
                     consolColor.WriteWithColor("Enter valid number", ConsoleColor.Red);
@@ -130,12 +153,44 @@ namespace BookManager
             Console.WriteLine("Author: ");
             string author = Console.ReadLine();
             Console.WriteLine("Year: ");
-            int year = Convert.ToInt32(Console.ReadLine());
+            string yearInput = Console.ReadLine();
+            int year = -1;
+            if(validate.lettersInNumbers(yearInput) != -1)
+            {
+                year = validate.lettersInNumbers(yearInput);
+            }
+            else
+            {
+                Console.Clear();
+                consolColor.WriteWithColor("Please enter number not letters", ConsoleColor.Red);
+                AddBook();
+            }
             ShowAllCategories();
-            int category = Convert.ToInt32(Console.ReadLine());
-
-            int lastIndex = books[books.Count - 1].Id + 1;
-            books.Add(new Book(lastIndex, title, author, year, category));
+            int category = -1;
+            string categoryInput = Console.ReadLine();
+            if(validate.lettersInNumbers(categoryInput) != -1)
+            {
+                category = validate.lettersInNumbers(categoryInput);
+            }
+            else
+            {
+                Console.Clear();
+                consolColor.WriteWithColor("Please enter number not letters", ConsoleColor.Red);
+                AddBook();
+            }
+            Categories allcategories = new Categories();
+            if (category > allcategories.categories.Count || category < 0)
+            {
+                Console.Clear();
+                consolColor.WriteWithColor("Category with this number doesn't exist", ConsoleColor.Red);
+                AddBook();
+            }
+            else
+            {
+                int lastIndex = books[books.Count - 1].Id + 1;
+                books.Add(new Book(lastIndex, title, author, year, category));
+            }
+            
 
         }
 
@@ -324,12 +379,45 @@ namespace BookManager
             Console.WriteLine("Author: ");
             string author = Console.ReadLine();
             Console.WriteLine("Year: ");
-            int year = Convert.ToInt32(Console.ReadLine());
+            string yearInput = Console.ReadLine();
+            int year = -1;
+            if (validate.lettersInNumbers(yearInput) != -1)
+            {
+                year = validate.lettersInNumbers(yearInput);
+            }
+            else
+            {
+                Console.Clear();
+                consolColor.WriteWithColor("Please enter number not letters", ConsoleColor.Red);
+                ShowMenu();
+            }
             ShowAllCategories();
-            int category = Convert.ToInt32(Console.ReadLine());
+            int category = -1;
+            string categoryInput = Console.ReadLine();
+            if (validate.lettersInNumbers(categoryInput) != -1)
+            {
+                category = validate.lettersInNumbers(categoryInput);
+            }
+            else
+            {
+                Console.Clear();
+                consolColor.WriteWithColor("Please enter number not letters", ConsoleColor.Red);
+                ShowMenu();
+            }
+            Categories allcategories = new Categories();
+            if (category > allcategories.categories.Count || category < 0)
+            {
+                Console.Clear();
+                consolColor.WriteWithColor("Category with this number doesn't exist", ConsoleColor.Red);
+                ShowMenu();
+            }
+            else
+            {
+                books.Add(new Book(books[tempM].Id, title, author, year, category));
+                books.Remove(books[tempM]);
+            }
 
-            books.Add(new Book(books[tempM].Id, title, author, year, category));
-            books.Remove(books[tempM]);
+                
 
         }
     }
