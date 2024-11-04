@@ -36,7 +36,10 @@ namespace BookManager
             consolColor.WriteWithColor("5. Delete book", ConsoleColor.Red);
             consolColor.WriteWithColor("6. Edit book", ConsoleColor.Blue);
             consolColor.WriteWithColor("7. Save book", ConsoleColor.Blue);
-            consolColor.WriteWithColor("8.Exit", ConsoleColor.Red);
+            consolColor.WriteWithColor("8. Show books by title", ConsoleColor.Green);
+            consolColor.WriteWithColor("9. Show books by category", ConsoleColor.Green);
+            consolColor.WriteWithColor("10. Show books in alphabetic order", ConsoleColor.Green);
+            consolColor.WriteWithColor("11. Exit", ConsoleColor.Red);
             Console.WriteLine("==================================");
 
             int choice = Convert.ToInt32(Console.ReadLine());
@@ -74,6 +77,20 @@ namespace BookManager
                     SaveBooks();
                     break;
                 case 8:
+                    Console.WriteLine("Enter book title: ");
+                    string bookTitle = Console.ReadLine();
+                    ShowBooksByTitle(bookTitle);
+                    break;
+                case 9:
+                    ShowAllCategories();
+                    Console.WriteLine("Enter category number: ");
+                    int categoryNumber = Convert.ToInt32(Console.ReadLine());
+                    ShowBooksByCategory(categoryNumber);
+                    break;
+                case 10:
+                    ShowBooksInAlphabeticOrder();
+                    break;
+                case 11:
                     System.Environment.Exit(-1);
                     break;
                 default:
@@ -86,7 +103,7 @@ namespace BookManager
 
         public void CheckValidationForNumber(int number)
         {
-            
+
         }
         public void ShowAllBooks()
         {
@@ -135,7 +152,7 @@ namespace BookManager
 
         public void ShowBookByObject(Book book)
         {
-            if(book == null)
+            if (book == null)
             {
                 consolColor.WriteWithColor("Wrong book", ConsoleColor.Red);
                 ShowMenu();
@@ -153,7 +170,7 @@ namespace BookManager
         public Book ShowBookById(int id)
         {
 
-            if(id > books.Count)
+            if (id > books.Count)
             {
                 consolColor.WriteWithColor($"Book with Id {id} does not exists ", ConsoleColor.Red);
                 ShowMenu();
@@ -315,6 +332,57 @@ namespace BookManager
             books.Add(new Book(books[tempM].Id, title, author, year, category));
             books.Remove(books[tempM]);
 
+        }
+
+        public void ShowBooksByTitle(string title)
+        {
+            for (int i = 0; i < books.Count; i++)
+            {
+                if (books[i].title.ToLower().Contains(title.ToLower()))
+                {
+                    consolColor.WriteWithColor($"Id: {books[i].Id}", ConsoleColor.Green);
+                    consolColor.WriteWithColor($"Title: {books[i].title}", ConsoleColor.Green);
+                    consolColor.WriteWithColor($"Author: {books[i].author}", ConsoleColor.Green);
+                    consolColor.WriteWithColor($"Year: {books[i].year}", ConsoleColor.Green);
+                    consolColor.WriteWithColor($"Category: {books[i].categoryText}", ConsoleColor.Green);
+                    Console.WriteLine("==================================");
+                }
+
+            }
+            Console.WriteLine("=========== Koniec ksiazek ===============");
+        }
+
+        public void ShowBooksByCategory(int categoryNum)
+        {
+            for (int i = 0; i < books.Count; i++)
+            {
+                if (books[i].categoryNumber == categoryNum)
+                {
+                    consolColor.WriteWithColor($"Id: {books[i].Id}", ConsoleColor.Green);
+                    consolColor.WriteWithColor($"Title: {books[i].title}", ConsoleColor.Green);
+                    consolColor.WriteWithColor($"Author: {books[i].author}", ConsoleColor.Green);
+                    consolColor.WriteWithColor($"Year: {books[i].year}", ConsoleColor.Green);
+                    consolColor.WriteWithColor($"Category: {books[i].categoryText}", ConsoleColor.Green);
+                    Console.WriteLine("==================================");
+                }
+                Console.WriteLine("=========== Koniec ksiazek ===============");
+            }
+        }
+
+        public void ShowBooksInAlphabeticOrder()
+        {
+            var sortedBooks = books.OrderByDescending(book => book.title).ToList();
+            sortedBooks.Reverse();
+            for (int i = 0; i < sortedBooks.Count; i++)
+            {
+                consolColor.WriteWithColor($"Id: {sortedBooks[i].Id}", ConsoleColor.Green);
+                consolColor.WriteWithColor($"Title: {sortedBooks[i].title}", ConsoleColor.Green);
+                consolColor.WriteWithColor($"Author: {sortedBooks[i].author}", ConsoleColor.Green);
+                consolColor.WriteWithColor($"Year: {sortedBooks[i].year}", ConsoleColor.Green);
+                consolColor.WriteWithColor($"Category: {sortedBooks[i].categoryText}", ConsoleColor.Green);
+                Console.WriteLine("==================================");
+            }
+            Console.WriteLine("=========== Koniec ksiazek ===============");
         }
     }
 }
