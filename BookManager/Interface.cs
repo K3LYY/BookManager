@@ -2,22 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using BookManager.Entities;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace BookManager
 {
     public class Interface
     {
-        
+        Reading reader = new();
         ColorConsole consolColor = new();
+        List<Book> books;
+        public Interface()
+        {
+            books = reader.read();
+        }
 
-        List<Book> books = new List<Book> {
-      new Book(0, "dziady cz. II", "Adam Mickiewicz", 1800, 2),
-      new Book(1, "Pan Tadeusz", "Adam Mickiewicz", 1800, 1),
-      new Book(2, "Quo Vadis", "Henryk Sienkiewicz", 1800, 1),
-    };
+        //List<Book> books = new List<Book> {
+        //    new Book(0, "dziady cz. II", "Adam Mickiewicz", 1800, 2),
+        //    new Book(1, "Pan Tadeusz", "Adam Mickiewicz", 1800, 1),
+        //    new Book(2, "Quo Vadis", "Henryk Sienkiewicz", 1800, 1),
+        //};
 
         public void ShowMenu()
         {
@@ -188,7 +195,7 @@ namespace BookManager
 
             int l = 0; // right pointer
             int r = books.Count; // left pointer
-
+            Console.WriteLine(r);
             while (r >= l)
             {
                 int m = (l + r) / 2; // middle poiter
