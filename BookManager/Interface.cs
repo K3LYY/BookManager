@@ -15,6 +15,7 @@ namespace BookManager
         Reading reader = new();
         ColorConsole consolColor = new();
         List<Book> books;
+        Validation validate = new();
         public Interface()
         {
             books = reader.read();
@@ -39,7 +40,15 @@ namespace BookManager
             consolColor.WriteWithColor("8.Exit", ConsoleColor.Red);
             Console.WriteLine("==================================");
 
-            int choice = Convert.ToInt32(Console.ReadLine());
+            string inputChoice = Console.ReadLine();
+            int choice = 0;
+
+
+            if (validate.lettersInNumbers(inputChoice) != -1)
+            {
+                choice = validate.lettersInNumbers(inputChoice);
+            }
+            
             Console.Clear();
 
             switch (choice)
@@ -66,7 +75,18 @@ namespace BookManager
                     break;
                 case 6:
                     Console.WriteLine("Enter book Id: ");
-                    int bookIdToEdit = Convert.ToInt32(Console.ReadLine());
+                    string bookIdToEditInput = Console.ReadLine();
+                    int bookIdToEdit;
+                    if (validate.lettersInNumbers(bookIdToEditInput) != -1)
+                    {
+                        bookIdToEdit = validate.lettersInNumbers(bookIdToEditInput);
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        consolColor.WriteWithColor("Please enter number not letters", ConsoleColor.Red);
+                        ShowMenu();
+                    }
                     Console.Clear();
                     EditBookById(bookIdToEdit);
                     break;
@@ -84,10 +104,6 @@ namespace BookManager
             ShowMenu();
         }
 
-        public void CheckValidationForNumber(int number)
-        {
-            
-        }
         public void ShowAllBooks()
         {
             Console.WriteLine("");
@@ -153,7 +169,7 @@ namespace BookManager
         public Book ShowBookById(int id)
         {
 
-            if(id > books.Count)
+            if(id > books.Count || id < 0)
             {
                 consolColor.WriteWithColor($"Book with Id {id} does not exists ", ConsoleColor.Red);
                 ShowMenu();

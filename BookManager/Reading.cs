@@ -13,7 +13,7 @@ namespace BookManager
         List<Book> books = new List<Book> { };
         public List<Book> read()
         {
-            using (StreamReader reader = new StreamReader("E:\\BookManagerFinal\\BookManager\\BooksDB.txt"))
+            using (StreamReader reader = new StreamReader("..\\..\\..\\BooksDB.txt"))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
